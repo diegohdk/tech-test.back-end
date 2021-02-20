@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('./log');
+const log = require('../log');
 
 /**
  * Handles signals received by the process, usually to exit the application.
@@ -42,5 +42,5 @@ process.on('SIGUSR1', () => onExit('SIGUSR1', true));
 process.on('SIGUSR2', () => onExit('SIGUSR2', true));
 
 //catches uncaught exceptions
-process.on('uncaughtException', error => onExit('uncaughtException', true, error));
-process.on('unhandledRejection', error => onExit('unhandledRejection', false, error));
+// process.on('uncaughtException', error => onExit('uncaughtException', true, error));
+// process.on('unhandledRejection', error => onExit('unhandledRejection', false, error));

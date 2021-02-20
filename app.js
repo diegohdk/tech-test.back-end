@@ -2,34 +2,36 @@
 
 'use strict';
 
+require('dotenv').config();
 require('./services/errors');
 
 const fs = require('fs');
 const express = require('express');
-const createError = require('http-errors');
 const cors = require('cors');
 const logger = require('morgan');
 const log = require('./services/log');
-const env = require('./.env');
 
 const app = express();
-const port = process.env.PORT || env.port;
+const port = process.env.PORT;
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cors({
-    origin : new RegExp(env.cors.origin),
+	origin : new RegExp(process.env.CORS_ORIGIN),
 	methods : ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
 }));
 
-app.use('/', require('./routes/index'));
-
-// catch 404 and forward to error handler
+// disable response cache
+app.set('etag', false);
 app.use((req, res, next) => {
-	next(createError(404));
+	res.setHeader('Cache-control', 'no-store');
+	next();
 });
+
+// default route
+app.use('/', require('./routes/index'));
 
 // default error handler
 app.use((err, req, res, next) => {
@@ -83,13 +85,13 @@ app.on('error', error => {
 
 try
 {
-    fs.statSync(env.cacheDir);
+    fs.statSync(process.env.CACHE_DIR);
 }
 catch(error)
 {
     if(error.code === 'ENOENT')
     {
-        fs.mkdirSync(env.cacheDir);
+        fs.mkdirSync(process.env.CACHE_DIR);
     }
     else
     {

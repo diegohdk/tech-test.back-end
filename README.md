@@ -22,7 +22,7 @@ When the app receives a request, it first checks whether it has the data cached.
 If it has, the data is read, processed and then returned to the front-end.
 But if the data is not cached, the app will query the remote API, and as soon
 the data is available, it will be saved on a file at the `cache` directory (the
-location can be changed in the `.env.json` file). After that, the data is
+location can be changed in the `.env` file). After that, the data is
 processed and returned to the front-end. Like this, the first request will still
 be slow, but all subsequent requests will be as fast as a blink ;)
 
@@ -34,13 +34,15 @@ The main stack used here is:
 - Express.js 4.16.1
 - axios 0.21.1
 - cors 2.8.5
+- dotenv 8.2.0
+- meld 1.3.2
 
 ## Configuration
 
-Copy or rename the file `env.sample` to `.env.json`. No need to edit it.
+Copy or rename the file `.env.sample` to `.env`. No need to edit it.
 
 The app runs on the port 3000 by default. But you can change it by editing the
-`.env.json` file. Just remember to also change the port in the front-end app.
+`.env` file. Just remember to also change the port in the front-end app.
 
 ## Install dependencies
 
